@@ -3,12 +3,9 @@ __pycache__/
 *.py[cod]
 
 # 忽略指定資料夾內所有內容
-/output/*
-!/output/.gitkeep
-/yaml/*
-!/yaml/.gitkeep
-/stl/*
-!/stl/.gitkeep
+/output/
+/yaml/
+/stl/
 
-# VS Code Workspace
-Dashboard_F.code-workspace
+# 忽略 VS Code Workspace
+*.code-workspace
