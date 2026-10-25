@@ -1,0 +1,71 @@
+TimeTag: Mon-Mar-16-2026-16:54:10-GMT+0800-(台北標準時間)
+YAMLVersion: IP-250814
+State: Project
+Description:
+  MCID: 05
+  NativeName: VU-5
+  Controller: Siemens-840D
+  Location: TT
+  HolderType: BT-30-v2
+Job:
+  NcFile:
+    FileName: O3333
+    FileLink: ./20260316_TT/NC/O3333.mpf
+  DesignStlFile:
+    FileName: TMTS
+    FileLink: ./stl/TMTS.STL
+    Image: ''
+  Material:
+    Type: S45C
+  Workpiece:
+    PartIDList: W-01
+  Controller:
+    CoordinateTable:
+      G54: ''
+      G55: ''
+    GeomOffset: ''
+  CompensationTable:
+    No1:
+      AxialIdealLength: ''
+      AxialWear: ''
+      IdealRadius: ''
+      RadialWear: ''
+CNCSpindle:
+  S1:
+    FileName: ''
+    FileLink: ./20260316_TT/CTL/
+    CmdSpeed: 3183
+    FeedRate: 637
+ToolRelated:
+  ToolHolder:
+    STH1:
+      HolderID: 6055f9e38c1c
+      Data:
+        FileName: 6055f9e38c1c_2026-03-16__16_54_10_349364_conv_out
+        FileLink: ./20260316_TT/Exp-2/STH/6055f9e38c1c_2026-03-16__16_54_10_349364_conv_out.csv
+        FluteShape: ''
+        MaxTorque: 0
+        Unblance: 0
+        RoundOut: 0
+  Binding:
+    No1:
+      HolderID: 6055f9e38c1c
+      ToolID: 20260316
+      State: true
+  ToolHouse:
+    T1:
+      ToolID: 20260316
+      Type: JSK-D8-25-75
+      Apt:
+        Diameter: 8
+        FullHeight: 75
+        FluteHeight: 25
+        AlphaAngle: 0
+        BetaAngle: 0
+      Sculp:
+        FluteNum: 4
+        HelixAngle: ''
+        RakeAngle: ''
+      ActualWear:
+        Before: 0
+        After: 0
