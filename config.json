@@ -1,0 +1,60 @@
+{
+  "SAVE_REFERENCE_CSV": false,
+  "MQTT_BROKER": "localhost",
+  "MQTT_PORT": 1883,
+  "PDATA_TOPIC": "STH/Pdata",
+  "CYCLE_TOPIC": "STH/CNC/CYCLE",
+  "CNC_TOPIC": "STH/CNC",
+  "CNC_IP_TOPIC": "STH/CNC/IP",
+  "CNC_BUTTON_TOPIC": "STH/CNC/Button",
+  "CNC_RE_TOPIC": "STH/CNC/Response",
+  "CMD_REQ_TOPIC": "CMD/REQ",
+  "CMD_RESP_TOPIC": "CMD/RESP",
+  "MAC_TOPIC": "STH/MAC",
+  "CNC_IP": "192.168.100.101",
+  "CNC_CONNECTION": "Wired connection 2",
+  "YAML_DIR": "./yaml",
+  "STL_DIR": "./stl",
+  "CSV_DIR": "./output",
+  "COEFF_PATH": "./coefficient/coefficient.csv",
+  "CSS_PATH": "./static/styles_E.css",
+  "PORT": 8051,
+  "PDATA_LENGTH": 200,
+  "CNC_LENGTH": 200,
+  "FLUTE_VIEW_LENGTH": 200,
+  "WEB_UPDATE_RATE": 1000,
+  "AUTO_REPORT_ON_CYCLE_END": false,
+  "DATA_SYNC_MODE": "DIRECT",
+  "TORQUE_UCL": [
+    {
+      "value": 0.0,
+      "color": "red"
+    },
+    {
+      "value": 0.0,
+      "color": "orange"
+    },
+    {
+      "value": 0.0,
+      "color": "green"
+    }
+  ],
+  "BENDING_UCL": [
+    {
+      "value": 0.0,
+      "color": "red"
+    }
+  ],
+  "FLUTE_UCL": [
+    {
+      "value": 0.0,
+      "color": "orange"
+    }
+  ],
+  "WEB_VERSION": "202610F",
+  "HOLDE_MAIN_VERSION": "0.92",
+  "UCL_SIGMA": [
+    3,
+    5
+  ]
+}

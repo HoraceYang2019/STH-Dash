@@ -1,0 +1,773 @@
+/* ==================== 整體版面設定 ==================== */
+/* 設置頁面整體樣式，移除預設邊距並設定背景色 */
+body {
+    margin: 0; /* 移除瀏覽器預設的邊距，確保內容填滿視窗 */
+    font-family: Arial, sans-serif; /* 使用 Arial 字體，若不可用則使用系統預設無襯線字體 */
+    background-color: #f4f4f4; /* 設置淺灰色背景，提升視覺舒適度 */
+    font-size: 14px; /* 基礎字體大小，使用 rem 單位以便響應式調整 */
+}
+
+/* 隱藏 Dash 的除錯框架，避免干擾 UI 顯示 */
+.dash-debug-menu__outer {
+    display: none !important;
+}
+
+/* 主內容容器，定義整體佈局結構 */
+.main-content {
+    display: flex; /* 使用 Flexbox 進行垂直排列 */
+    flex-direction: column; /* 元素沿垂直方向排列 */
+    height: 100vh; /* 設置容器高度為視窗高度，確保填滿螢幕 */
+    padding: 0.1vw; /* 縮減內距，內容更貼近邊緣 */
+    box-sizing: border-box; /* 確保內距和邊框不影響容器尺寸 */
+}
+
+/* ==================== 頂部控制面板 ==================== */
+/* 頂部面板，顯示狀態指示器和控制按鈕 */
+.top-panel {
+    display: flex; /* 使用 Flexbox 水平排列子元素 */
+    align-items: stretch; /* 子元素高度一致填滿面板 */
+    justify-content: space-between; /* 子元素均勻分佈，兩端對齊 */
+    background-color: #2c3e50; /* 深藍灰背景色，突出頂部面板 */
+    color: white; /* 文字顏色為白色，與背景對比 */
+    padding: 0.4vw 0.8vw; /* 縮減內距 */
+    border-radius: 0.3rem; /* 圓角邊框，使用 rem 單位 */
+    margin-bottom: 0.5vw; /* 縮減與下方內容的間距 */
+    gap: 0.2vw; /* 縮減子元素之間的間距 */
+    flex-wrap: nowrap; /* 保持水平排列，不換行 */
+}
+
+/* 面板群組，用於組織相關元素 */
+.panel-group {
+    display: flex; /* 水平排列群組內元素 */
+    align-items: center; /* 垂直居中對齊 */
+    gap: 2vw; /* 擴大群組內元素之間的間距 */
+    padding: 0.2vw 0.5vw; /* 精簡內距 */
+    border-radius: 0.25rem; /* 圓角 */
+    flex-wrap: wrap; /* 允許換行 */
+}
+
+/* MQTT資訊區塊樣式 */
+.mqtt-info {
+    background-color: rgba(93, 173, 226, 0.15); /* 淡藍色半透明背景 */
+    border-radius: 0.25rem; /* 圓角 */
+}
+
+/* 連線狀態區塊樣式 */
+.connection-status {
+    background-color: rgba(247, 220, 111, 0.15); /* 淡金黃色半透明背景 */
+    border-radius: 0.25rem; /* 圓角 */
+}
+
+/* 加工監控區塊樣式 */
+.machining-control {
+    background-color: rgba(88, 214, 141, 0.15); /* 淡綠色半透明背景 */
+    border-radius: 0.25rem; /* 圓角 */
+}
+
+/* 指示器組，包含狀態燈號和文字標籤 */
+.indicator-group {
+    display: flex; /* 水平排列燈號和文字 */
+    align-items: center; /* 垂直居中對齊 */
+    gap: 0.6vw; /* 增加燈號與文字之間的間距 */
+    line-height: 1.5rem; /* 行高與燈號高度一致 */
+}
+
+/* 通用指示器樣式，定義圓形燈號 */
+.indicator {
+    width: 2rem; /* 縮減燈號大小 */
+    height: 2rem;
+    border-radius: 50%; /* 設置圓形外觀 */
+    display: inline-block; /* 確保燈號與文字同行顯示 */
+}
+
+/* Controller State 指示器樣式 */
+.control-state-indicator {
+    background-color: grey; /* 初始狀態為灰色，表示未連線 */
+}
+
+/* Machining State 指示器 */
+.cycle-indicator {
+    background-color: grey; /* 初始狀態為灰色，表示未啟動 */
+}
+
+/* STH Link 指示器 */
+.sth-link-indicator {
+    background-color: grey; /* 初始狀態為灰色，表示未連線 */
+}
+
+/* 頂部面板按鈕樣式 */
+.top-panel button {
+    background-color: #1e6fa9; /* 藍色背景 */
+    color: white; /* 白色文字 */
+    border: none; /* 無邊框 */
+    padding: 0.5rem; /* 縮減內距 */
+    border-radius: 0.2rem; /* 縮減圓角 */
+    cursor: pointer; /* 手型指標 */
+    margin: 0.2rem 0; /* 上下外距一致 */
+    transition: background-color 0.3s; /* 背景色過渡動畫 */
+    font-size: 0.8rem; /* 縮減按鈕文字大小 */
+}
+
+/* 頂部面板按鈕懸停效果 */
+.top-panel button:hover {
+    background-color: #2980b9; /* 懸停時背景色變亮 */
+}
+
+/* 頂部面板文字樣式（非指示器和指示器組的 div 和 span） */
+.top-panel div:not(.indicator):not(.indicator-group), .top-panel span {
+    font-size: 0.8rem; /* 縮減文字大小 */
+}
+
+/* ==================== 主體內容區塊 ==================== */
+/* 主體容器，包含左、中、右面板 */
+.main-body {
+    display: flex; /* 使用 Flexbox 水平排列面板 */
+    flex: 1; /* 填滿剩餘高度 */
+    gap: 0.5vw; /* 縮減面板之間的間距 */
+    overflow: auto; /* 防止內容溢出，啟用滾動條 */
+    flex-wrap: nowrap; /* 保持水平排列，不換行 */
+}
+
+/* 左側面板容器，包含上半部和下半部 */
+.left-panel-container {
+    width: 10%; /* 固定寬度為視窗的 10% */
+    min-width: 100px; /* 縮減最小寬度 */
+    display: flex; /* 垂直排列子面板 */
+    flex-direction: column; /* 子元素垂直排列 */
+    gap: 0.5vw; /* 縮減上下面板之間的間距 */
+    flex: 1; /* 自動填滿可用空間 */
+}
+
+/* ==================== 左側控制面板 ==================== */
+/* 左側上半部面板，包含檔案上傳和下拉選單 */
+.left-panel {
+    height: 60%; /* 占左側容器高度的 60% */
+    background-color: #e7ebed; /* 淺灰背景，與主體區分 */
+    padding: 0.5rem; /* 縮減內距 */
+    border-radius: 0.3rem; /* 縮減圓角 */
+}
+
+/* 左側面板的下拉選單 */
+.left-panel .dcc_dropdown {
+    margin-bottom: 0.5rem; /* 縮減下拉選單之間的間距 */
+}
+
+/* 左側面板按鈕樣式 */
+.left-panel button {
+    width: 100%; /* 按鈕填滿容器寬度 */
+    background-color: #1e6fa9; /* 藍色背景 */
+    color: white; /* 白色文字 */
+    border: none; /* 無邊框 */
+    padding: 0.5rem; /* 縮減內距 */
+    border-radius: 0.2rem; /* 縮減圓角 */
+    cursor: pointer; /* 手型指標 */
+    margin-bottom: 0.4rem; /* 縮減按鈕之間的間距 */
+    transition: background-color 0.3s; /* 背景色過渡動畫 */
+    font-size: 0.8rem; /* 縮減按鈕文字大小 */
+}
+
+/* 左側面板按鈕懸停效果 */
+.left-panel button:hover {
+    background-color: #2980b9; /* 懸停時背景色變亮 */
+}
+
+/* 左側面板禁用按鈕樣式 */
+.left-panel button:disabled {
+    background-color: #95a5a6; /* 灰色背景，表示禁用 */
+    cursor: not-allowed; /* 禁用時顯示禁止指標 */
+}
+
+/* 下載 CSV 按鈕的額外間距 */
+#download-csv-button {
+    margin-top: 0.5rem;
+}
+
+/* 檔案上傳按鈕容器 */
+.upload-yaml-container button {
+    width: 100%; /* 確保上傳按鈕填滿容器 */
+}
+
+/* 加工參數顯示區域 */
+#machining-params {
+    margin-top: 0.5rem; /* 縮減與上方元素的間距 */
+}
+
+/* 加工參數文字樣式 */
+#machining-params p {
+    margin: 0.2rem 0; /* 縮減每行參數的垂直間距 */
+    font-size: 0.8rem; /* 縮減文字大小 */
+}
+
+/* ==================== 左下面板 ==================== */
+/* 左側下半部面板，包含控制按鈕 */
+.lower-left-panel {
+    background-color: #e7ebed; /* 淺灰背景 */
+    padding: 0.2rem; /* 縮減內距 */
+    border-radius: 0.3rem; /* 縮減圓角 */
+    flex: 1; /* 填滿剩餘空間 */
+}
+
+/* 特定 panel-group 的按鈕 */
+.panel-group.connection-buttons,
+.panel-group.control-buttons {
+    flex-direction: column; /* 垂直排列按鈕 */
+    gap: 0.4rem; /* 縮減按鈕之間的間距 */
+    padding: 0.5rem; /* 調整內距 */
+    align-items: stretch; /* 確保按鈕填滿容器寬度 */
+    margin-bottom: 0.4rem; /* 按鈕之間的間距 */
+}
+.panel-group.config-buttons {
+    flex-direction: column; /* 垂直排列按鈕 */
+    gap: 0.4rem; /* 縮減按鈕之間的間距 */
+    padding: 0.5rem; /* 調整內距 */
+    align-items: stretch; /* 確保按鈕填滿容器寬度 */
+}
+
+/* 左下面板按鈕樣式 */
+.lower-left-panel button {
+    width: 100%; /* 按鈕填滿容器寬度 */
+    background-color: #1e6fa9; /* 藍色背景 */
+    color: white; /* 白色文字 */
+    border: none; /* 無邊框 */
+    padding: 0.5rem; /* 縮減內距 */
+    border-radius: 0.2rem; /* 縮減圓角 */
+    cursor: pointer; /* 手型指標 */
+    transition: background-color 0.3s; /* 背景色過渡動畫 */
+    font-size: 0.8rem; /* 縮減按鈕文字大小 */
+}
+
+/* 左下面板按鈕懸停效果 */
+.lower-left-panel button:hover {
+    background-color: #2980b9; /* 懸停時背景色變亮 */
+}
+
+/* 左下面板禁用按鈕樣式 */
+.lower-left-panel button:disabled {
+    background-color: #95a5a6; /* 灰色背景 */
+    cursor: not-allowed; /* 禁用指標 */
+}
+
+/* ==================== 下拉選單樣式優化 ==================== */
+/* 下拉選單選項樣式，適用於所有 Dash 下拉選單 */
+div.Select__menu, div.Select-menu-outer, div[class*="menu"] {
+    min-width: 320% !important; /* 縮減選單寬度 */
+    width: auto !important; /* 自動調整寬度 */
+    left: 0 !important; /* 對齊左側 */
+    z-index: 9999 !important; /* 確保選單在最上層 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 添加陰影，提升層次感 */
+    overflow-x: auto; /* 水平滾動條 */
+    white-space: nowrap; /* 選項文字不換行 */
+    font-size: 0.8rem; /* 縮減選單文字大小 */
+}
+
+/* ==================== 中間圖表面板 ==================== */
+/* 中間面板，顯示圖表 */
+.center-panel {
+    width: 80%; /* 預設寬度為視窗的 80% */
+    display: flex; /* 垂直排列子元素 */
+    flex-direction: column; /* 子元素垂直排列 */
+    gap: 0.5vw; /* 縮減子元素間距 */
+    transition: width 0.3s ease; /* 寬度變化時的平滑過渡 */
+}
+
+/* 當右側面板隱藏時，擴展中間面板寬度 */
+.main-body:has(.right-panel[style*="display: none"]) .center-panel {
+    width: 90%; /* 右側面板隱藏時，中間面板擴展到 90% */
+}
+
+/* 中間面板頂部區域，顯示 STL、CNC 和 Flute 圖表 */
+.center-top {
+    display: grid; /* 使用網格佈局 */
+    grid-template-columns: repeat(3, 1fr); /* 三欄均分 */
+    gap: 0.3vw; /* 縮減圖表之間的間距 */
+    height: 40%; /* 占中間面板高度的 40% */
+    justify-content: center; /* 水平居中 */
+    overflow: hidden; /* 防止內容溢出 */
+}
+
+/* 中間面板底部區域，顯示 Torque 和 Bending 圖表 */
+.center-bottom {
+    flex: 1; /* 填滿剩餘空間 */
+    display: flex; /* 垂直排列圖表 */
+    flex-direction: column; /* 子元素垂直排列 */
+    gap: 0.5vw; /* 縮減圖表之間的間距 */
+}
+
+/* STL、CNC 和 Flute 圖表的樣式 */
+#stl-graph, #cnc-view-graph, #flute-view-graph {
+    width: 100%; /* 填滿容器寬度 */
+    height: 100%; /* 填滿容器高度 */
+    min-width: 80px; /* 縮減最小寬度 */
+    min-height: 80px; /* 縮減最小高度 */
+    background-color: white; /* 白色背景 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 輕微陰影，增加層次感 */
+    overflow: hidden; /* 防止內容溢出 */
+    object-fit: contain; /* 確保圖表內容適配容器 */
+}
+
+/* Torque 和 Bending 圖表的樣式 */
+#torque-graph, #bending-graph {
+    width: 100%; /* 填滿容器寬度 */
+    height: 50%; /* 各占底部區域的 50% */
+    min-height: 80px; /* 縮減最小高度，與 center-top 一致 */
+    background-color: white; /* 白色背景 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 陰影效果 */
+    overflow: hidden; /* 防止內容溢出 */
+}
+
+/* ==================== 右側資訊面板 ==================== */
+/* 右側面板，顯示 MQTT 訊息 */
+.right-panel {
+    width: 10%; /* 固定寬度為視窗的 10% */
+    min-width: 100px; /* 縮減最小寬度 */
+    display: flex; /* 垂直排列子面板 */
+    flex-direction: column; /* 子元素垂直排列 */
+    flex: 1; /* 填滿可用空間 */
+    gap: 0.5vw; /* 縮減上下面板之間的間距 */
+    min-height: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.right-panel-sections {
+    height: 85%;
+    flex-shrink: 0;
+    min-height: 0;
+    background-color: #e7ebed;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* 下方系統狀態區 */
+.status-panel-section {
+    flex: 1; /* 填滿剩餘空間 */
+    background-color: #e7ebed; /* 淺灰背景 */
+    padding: 0.2rem;
+    border-radius: 0.3rem;
+    /* margin-top: 0.5rem; */
+    min-height: 0;
+    padding: 0.2rem;
+    border-radius: 0.3rem;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    /* 文字自動換行 */
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: normal;
+
+}
+
+/* MQTT 訊息標題 */
+.mqtt-title {
+    font-size: 0.9rem; /* 縮減標題文字大小 */
+    font-weight: bold;
+    margin-top: 0.2rem; /* 移除頂部邊距 */
+    margin-left: 0.2rem; /* 縮減左側間距 */
+    margin-bottom: 0.4rem; /* 縮減與下方內容的間距 */
+}
+
+/* MQTT 訊息文字 */
+#mqtt-messages {
+    margin: 0.2rem 0; /* 縮減每行訊息的垂直間距 */
+    font-size: 0.75rem; /* 縮減文字大小 */
+    white-space: pre-wrap; /* 保留文字格式（如換行） */
+}
+
+/* 系統狀態訊息標題 */
+.status-title {
+    font-size: 0.9rem; /* 縮減標題文字大小 */
+    font-weight: bold;
+    margin-top: 0.2rem; /* 移除頂部邊距 */
+    margin-left: 0.2rem; /* 縮減左側間距 */
+    margin-bottom: 0.4rem; /* 縮減與下方內容的間距 */
+}
+
+#status-messages p {
+    margin: 0.2rem 0; /* 縮減每行訊息的垂直間距 */
+    font-size: 0.8rem; /* 縮減文字大小 */
+    white-space: pre-wrap; /* 保留文字格式（如換行） */
+}
+
+/* ==================== Plotly 圖表樣式 ==================== */
+/* Plotly 圖表容器 */
+.plotly-graph-div {
+    width: 100%; /* 填滿容器寬度 */
+    height: 100%; /* 填滿容器高度 */
+}
+
+/* ==================== 模態視窗樣式 ==================== */
+/* 模態視窗背景遮罩 */
+.popup-overlay {
+    position: fixed; /* 固定定位，覆蓋整個視窗 */
+    top: 0; /* 從頂部開始 */
+    left: 0; /* 從左側開始 */
+    width: 100%; /* 填滿寬度 */
+    height: 100%; /* 填滿高度 */
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+    display: flex; /* 居中顯示內容 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    z-index: 10000; /* 高層級，確保在最上層 */
+}
+
+/* 模態視窗內容區域 */
+.popup-content {
+    background-color: white; /* 白色背景 */
+    padding: 0.8rem; /* 縮減內距 */
+    border-radius: 0.3rem; /* 縮減圓角 */
+    width: 90%; /* 最大寬度為視窗的 90% */
+    max-width: 700px; /* 縮減最大寬度 */
+    max-height: 100%; /* 最大高度為視窗的 100% */
+    overflow-y: auto; /* 啟用垂直滾動條 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影效果，增加層次感 */
+    box-sizing: border-box; /* 確保內距不影響尺寸 */
+}
+
+/* 模態視窗標題 */
+.popup-title {
+    margin-top: 0; /* 移除頂部邊距 */
+    font-size: 0.9rem; /* 縮減標題文字大小 */
+}
+
+/* 模態視窗標籤 */
+.label-inline {
+    display: block; /* 獨占一行 */
+    margin-top: 0.4rem; /* 縮減上方間距 */
+    font-weight: bold; /* 粗體文字 */
+    white-space: nowrap; /* 文字不換行 */
+    font-size: 0.7rem; /* 縮減文字大小 */
+}
+
+/* 模態視窗文字輸入框 */
+.modal-textarea {
+    margin-top: 0.2rem; /* 縮減上方間距 */
+    resize: vertical; /* 僅允許垂直調整大小 */
+    width: 100%; /* 填滿容器寬度 */
+    min-height: 100px; /* 縮減最小高度 */
+    box-sizing: border-box; /* 確保內距不影響尺寸 */
+    font-family: monospace; /* 使用等寬字體，適合顯示程式碼 */
+    font-size: 0.7rem; /* 縮減文字大小 */
+}
+
+/* 模態視窗按鈕容器 */
+.modal-button-container {
+    display: flex; /* 水平排列按鈕 */
+    justify-content: space-between; /* 按鈕均勻分佈 */
+    width: 100%; /* 填滿容器寬度 */
+    gap: 0.4rem; /* 縮減按鈕之間的間距 */
+    margin-top: 0.4rem; /* 縮減上方間距 */
+}
+
+/* 模態視窗按鈕樣式 */
+.control-button {
+    flex: 1; /* 按鈕平均分配寬度 */
+    padding: 0.3rem 0.6rem; /* 縮減內距 */
+    background-color: #1e6fa9; /* 藍色背景 */
+    color: white; /* 白色文字 */
+    border: none; /* 無邊框 */
+    border-radius: 0.2rem; /* 縮減圓角 */
+    cursor: pointer; /* 手型指標 */
+    transition: background-color 0.3s; /* 背景色過渡動畫 */
+    text-align: center; /* 文字居中 */
+    font-size: 0.7rem; /* 縮減按鈕文字大小 */
+}
+
+/* 模態視窗按鈕懸停效果 */
+.control-button:hover {
+    background-color: #2980b9; /* 懸停時背景色變亮 */
+}
+
+/* ==================== 檔案清單樣式 ==================== */
+/* 檔案清單容器，用於包圍 YAML 和 CSV 勾選框 */
+.file-list-container {
+    border: 1px solid #ccc; /* 添加灰色邊框，視覺上分隔清單 */
+    border-radius: 0.2rem; /* 縮減圓角 */
+    padding: 0.4rem; /* 縮減內距 */
+    margin-bottom: 0.5rem; /* 縮減清單之間的間距 */
+    max-height: 100px; /* 縮減高度 */
+    overflow-y: auto; /* 啟用垂直滾動條，處理長清單 */
+    background-color: #f9f9f9; /* 淺灰背景，與其他區域區分 */
+}
+
+/* 勾選框清單樣式 */
+.file-list-container .dash-checklist {
+    list-style: none; /* 移除預設清單樣式 */
+    padding: 0; /* 移除內距 */
+    margin: 0; /* 移除外距 */
+}
+
+/* 勾選框標籤樣式 */
+.file-list-container .dash-checklist label {
+    display: block; /* 每個標籤獨占一行 */
+    margin: 0.2rem 0; /* 縮減垂直間距 */
+    font-size: 0.7rem; /* 縮減文字大小 */
+    color: #333; /* 深灰色文字，確保對比度 */
+}
+
+/* ==================== STL / PNG 工件管理視窗 ==================== */
+
+.part-files-popup {
+    max-width: 700px;
+}
+
+/* 上傳區域 */
+.part-files-upload-area {
+    border: 1px dashed #1e6fa9;
+    border-radius: 0.2rem;
+    background-color: #f4f8fb;
+    color: #1e6fa9;
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+    margin-top: 0.3rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s;
+}
+
+.part-files-upload-area:hover {
+    background-color: #e3f0fa;
+}
+
+/* STL / PNG 檔案列表 */
+.part-files-list {
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+/* 提示文字 */
+.part-files-hint {
+    margin: 0.35rem 0;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    color: #666;
+}
+
+/* 上傳 / 刪除結果 */
+.part-files-message {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+/* 失敗 */
+.part-files-message .error {
+    color: #b03a2e;
+}
+
+/* 成功 */
+.part-files-message .success {
+    color: #247a44;
+}
+
+/* ==================== 響應式設計 ==================== */
+/* 針對平板（寬度小於 1024px） */
+@media screen and (max-width: 1024px) {
+    body {
+        font-size: 12px; /* 縮減基礎字體大小 */
+    }
+
+    .top-panel {
+        padding: 0.3vw 0.6vw; /* 縮減內距 */
+        gap: 0.3vw; /* 縮減間距 */
+        flex-wrap: nowrap; /* 保持水平排列 */
+    }
+
+    .indicator {
+        width: 1.2rem; /* 縮減指示器大小 */
+        height: 1.2rem;
+    }
+
+    .indicator-group {
+        gap: 0.3vw; /* 縮減間距 */
+        line-height: 1.2rem;
+    }
+
+    .top-panel button {
+        padding: 0.2rem 0.5rem; /* 縮減按鈕內距 */
+        font-size: 0.7rem; /* 縮減按鈕文字 */
+    }
+
+    .top-panel div:not(.indicator):not(.indicator-group), .top-panel span {
+        font-size: 0.7rem; /* 縮減文字大小 */
+    }
+
+    .left-panel, .lower-left-panel {
+        padding: 0.4rem; /* 縮減內距 */
+    }
+
+    .left-panel button, .lower-left-panel button {
+        padding: 0.3rem; /* 縮減按鈕內距 */
+        font-size: 0.7rem; /* 縮減按鈕文字 */
+    }
+
+    .panel-group.connection-buttons,
+    .panel-group.control-buttons {
+        gap: 0.3rem; /* 縮減按鈕間距 */
+        padding: 0.4rem; /* 縮減內距 */
+        margin-bottom: 0.6rem; /* 響應式縮減外距 */
+    }
+
+    .panel-group.config-buttons {
+        gap: 0.3rem; /* 縮減按鈕間距 */
+        padding: 0.4rem; /* 縮減內距 */
+    }
+
+    #machining-params p {
+        font-size: 0.7rem; /* 縮減文字大小 */
+    }
+
+    .center-top {
+        gap: 0.2vw; /* 縮減圖表間距 */
+    }
+
+    #stl-graph, #cnc-view-graph, #flute-view-graph {
+        min-width: 60px; /* 進一步縮減最小寬度 */
+        min-height: 60px; /* 進一步縮減最小高度 */
+    }
+
+    #torque-graph, #bending-graph {
+        min-height: 60px; /* 縮減最小高度，與 center-top 圖表一致 */
+    }
+
+    .right-panel {
+        min-width: 80px; /* 進一步縮減最小寬度 */
+    }
+
+    .mqtt-title {
+        font-size: 0.7rem; /* 縮減標題文字 */
+    }
+
+    #mqtt-messages p {
+        font-size: 0.6rem; /* 縮減訊息文字 */
+    }
+
+    .modal-textarea {
+        min-height: 80px; /* 縮減文字輸入框高度 */
+        font-size: 0.6rem; /* 縮減文字大小 */
+    }
+
+    .control-button {
+        padding: 0.2rem 0.5rem; /* 縮減按鈕內距 */
+        font-size: 0.6rem; /* 縮減按鈕文字 */
+    }
+
+    .file-list-container {
+        max-height: 80px; /* 縮減清單高度 */
+        font-size: 0.6rem; /* 縮減文字大小 */
+    }
+}
+
+/* 針對手機（寬度小於 768px） */
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 10px; /* 進一步縮減基礎字體大小 */
+    }
+
+    .top-panel {
+        padding: 0.2vw 0.4vw; /* 進一步縮減內距 */
+        gap: 0.2vw; /* 進一步縮減間距 */
+        flex-wrap: nowrap; /* 保持水平排列 */
+    }
+
+    .indicator {
+        width: 1rem; /* 進一步縮減指示器大小 */
+        height: 1rem;
+    }
+
+    .indicator-group {
+        gap: 0.2vw; /* 進一步縮減間距 */
+        line-height: 1rem;
+    }
+
+    .top-panel button {
+        padding: 0.2rem 0.4rem; /* 進一步縮減按鈕內距 */
+        font-size: 0.6rem; /* 進一步縮減按鈕文字 */
+    }
+
+    .top-panel div:not(.indicator):not(.indicator-group), .top-panel span {
+        font-size: 0.6rem; /* 進一步縮減文字大小 */
+    }
+
+    .left-panel, .lower-left-panel {
+        padding: 0.3rem; /* 進一步縮減內距 */
+        min-width: 80px; /* 進一步縮減最小寬度 */
+    }
+
+    .left-panel button, .lower-left-panel button {
+        padding: 0.2rem; /* 進一步縮減按鈕內距 */
+        font-size: 0.6rem; /* 進一步縮減按鈕文字 */
+    }
+
+    .panel-group.connection-buttons,
+    .panel-group.control-buttons {
+        gap: 0.2rem; /* 進一步縮減按鈕間距 */
+        padding: 0.3rem; /* 進一步縮減內距 */
+        margin-bottom: 0.4rem; /* 進一步縮減外距 */
+    }
+
+    .panel-group.config-buttons {
+        gap: 0.2rem; /* 進一步縮減按鈕間距 */
+        padding: 0.3rem; /* 進一步縮減內距 */
+    }
+
+    #machining-params p {
+        font-size: 0.6rem; /* 進一步縮減文字大小 */
+    }
+
+    .center-top {
+        gap: 0.1vw; /* 進一步縮減圖表間距 */
+    }
+
+    #stl-graph, #cnc-view-graph, #flute-view-graph {
+        min-width: 50px; /* 進一步縮減最小寬度 */
+        min-height: 50px; /* 進一步縮減最小高度 */
+    }
+
+    #torque-graph, #bending-graph {
+        min-height: 50px; /* 進一步縮減最小高度，與 center-top 圖表一致 */
+    }
+
+    .right-panel {
+        min-width: 60px; /* 進一步縮減最小寬度 */
+    }
+
+    .mqtt-title {
+        font-size: 0.6rem; /* 進一步縮減標題文字 */
+    }
+
+    #mqtt-messages p {
+        font-size: 0.5rem; /* 進一步縮減訊息文字 */
+    }
+
+    .popup-content {
+        width: 95%; /* 模態視窗更窄 */
+        padding: 0.5rem; /* 進一步縮減內距 */
+    }
+
+    .popup-title {
+        font-size: 0.8rem; /* 進一步縮減標題文字 */
+    }
+
+    .label-inline {
+        font-size: 0.6rem; /* 進一步縮減標籤文字 */
+    }
+
+    .modal-textarea {
+        min-height: 60px; /* 進一步縮減文字輸入框 */
+        font-size: 0.5rem; /* 進一步縮減文字大小 */
+    }
+
+    .control-button {
+        padding: 0.2rem 0.4rem; /* 進一步縮減按鈕內距 */
+        font-size: 0.5rem; /* 進一步縮減按鈕文字 */
+    }
+
+    .file-list-container {
+        max-height: 60px; /* 進一步縮減清單高度 */
+        font-size: 0.5rem; /* 進一步縮減文字大小 */
+    }
+}
