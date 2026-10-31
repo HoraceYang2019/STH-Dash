@@ -27,27 +27,27 @@
   "DATA_SYNC_MODE": "DIRECT",
   "TORQUE_UCL": [
     {
-      "value": 0.0,
+      "value": 0.2,
       "color": "red"
     },
     {
-      "value": 0.0,
+      "value": 0.17,
       "color": "orange"
     },
     {
-      "value": 0.0,
+      "value": 0.14,
       "color": "green"
     }
   ],
   "BENDING_UCL": [
     {
-      "value": 0.0,
+      "value": 5,
       "color": "red"
     }
   ],
   "FLUTE_UCL": [
     {
-      "value": 0.0,
+      "value": 0.15,
       "color": "orange"
     }
   ],
