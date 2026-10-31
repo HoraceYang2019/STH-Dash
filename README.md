@@ -71,3 +71,5 @@
 5. 按下 Generate Report 後，新增視窗等待報告產生
 6. 修正無管制界線時，Report 的 Flute View 無法顯示錯誤
 7. 新增資料同步模式設定，讓 CNC 與 STH 的資料可以選擇是否經過同步，再顯示於儀表板
+8. Download Outcome 下方新增 Manage CNC Output，可管理 CNC CSV 輸出檔案。
+9. 新增 **Manage CNC Files** 開啟視窗後，勾選要處理的 CSV，再按 **Download** 或 **Delete**。單檔直接下載，多檔會打包成 `cnc_csv.zip`。

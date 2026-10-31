@@ -16,6 +16,7 @@
   "YAML_DIR": "./yaml",
   "STL_DIR": "./stl",
   "CSV_DIR": "./output",
+  "CNC_CSV_DIR": "./cnc_csv",
   "COEFF_PATH": "./coefficient/coefficient.csv",
   "CSS_PATH": "./static/styles_E.css",
   "PORT": 8051,
@@ -51,7 +52,7 @@
       "color": "orange"
     }
   ],
-  "WEB_VERSION": "202610F",
+  "WEB_VERSION": "202611F",
   "HOLDE_MAIN_VERSION": "0.92",
   "UCL_SIGMA": [
     3,

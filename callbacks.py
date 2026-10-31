@@ -369,6 +369,86 @@ def register_callbacks(app, config_manager: ConfigManager, data_manager: DataMan
         return "", {"display": "none"}
 
     @app.callback(
+        Output("cnc-output-modal", "style"),
+        Output("cnc-output-checklist", "options"),
+        Output("cnc-output-checklist", "value"),
+        Output("cnc-output-message", "children"),
+        Output("download-cnc-output", "data"),
+        Input("manage-cnc-output-button", "n_clicks"),
+        Input("cancel-cnc-output-button", "n_clicks"),
+        Input("download-cnc-output-button", "n_clicks"),
+        Input("delete-cnc-output-button", "n_clicks"),
+        State("cnc-output-checklist", "value"),
+        prevent_initial_call=True,
+    )
+    def manage_cnc_output(open_clicks, close_clicks,
+                          download_clicks, delete_clicks, selected_files):
+        """開啟 CNC CSV 管理視窗，下載或刪除所選檔案後重新列出清單。"""
+        trigger_id = dash.callback_context.triggered[0]["prop_id"].split(".")[0]
+        if trigger_id == "cancel-cnc-output-button":
+            return {"display": "none"}, dash.no_update, [], "", dash.no_update
+
+        style = {"display": "flex"}
+        selected_files = list(dict.fromkeys(selected_files or []))
+        if trigger_id == "manage-cnc-output-button":
+            selected_files = []
+        messages = []
+        download = dash.no_update
+
+        if trigger_id in {"download-cnc-output-button", "delete-cnc-output-button"}:
+            if not selected_files:
+                messages.append("Please select at least one CNC CSV file.")
+            elif trigger_id == "download-cnc-output-button":
+                try:
+                    paths = [job_handler.validate_managed_path(
+                        filename, config_manager.CNC_CSV_DIR, allowed_extensions={".csv"}
+                    ) for filename in selected_files]
+                    if len(paths) == 1:
+                        download = dcc.send_file(str(paths[0]))
+                    else:
+                        def write_cnc_zip(buffer):
+                            with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+                                for path in paths:
+                                    archive.write(path, arcname=path.name)
+                        download = dcc.send_bytes(write_cnc_zip, filename="cnc_csv.zip")
+                    messages.append(f"Download prepared for {len(paths)} file(s).")
+                except (OSError, ValueError) as e:
+                    logger.error("下載 CNC CSV 失敗: %s", e)
+                    messages.append(f"Unable to download CNC CSV: {e}")
+            else:
+                for filename in selected_files:
+                    try:
+                        path = job_handler.validate_managed_path(
+                            filename, config_manager.CNC_CSV_DIR, allowed_extensions={".csv"}
+                        )
+                        path.unlink()
+                        messages.append(f"Deleted {path.name}.")
+                    except (OSError, ValueError) as e:
+                        logger.error("刪除 CNC CSV 失敗: %s", e)
+                        messages.append(f"Unable to delete {Path(filename).name}: {e}")
+
+        try:
+            options = data_manager.get_cnc_output_files()
+            available_files = {option["value"] for option in options}
+            selection = [filename for filename in selected_files if filename in available_files]
+            if not options:
+                messages.append("No CNC CSV files found in this folder.")
+        except OSError as e:
+            logger.error("讀取 CNC CSV 資料夾失敗: %s", e)
+            options, selection = [], []
+            messages.append("Unable to read CNC output folder. Check CNC_CSV_DIR in Edit Config. " + str(e))
+
+        return style, options, selection, "\n".join(messages), download
+
+    @app.callback(
+        Output("download-cnc-output-button", "disabled"),
+        Output("delete-cnc-output-button", "disabled"),
+        Input("cnc-output-checklist", "value"),
+    )
+    def enable_cnc_output_actions(selected_files):
+        return not selected_files, not selected_files
+
+    @app.callback(
         Output("part-files-message", "children"),
         Output("part-files-checklist", "options"),
         Input("upload-part-files", "contents"),

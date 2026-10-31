@@ -84,6 +84,7 @@ class DashboardLayout:
                         ),
                         html.Button(id="download-csv-button", children="Download Outcome"),
                         dcc.Download(id="download-csv"),
+                        html.Button(id="manage-cnc-output-button", children="Manage CNC Files"),
                     ]),
 
                     # 左下：連線/控制/報告
@@ -145,6 +146,25 @@ class DashboardLayout:
                         html.Div(className="report-loading-spinner"), # 旋轉載入動畫
                         html.H3("Report being generated...", className="report-loading-title"),
                         html.P("Please wait, the report will automatically close once generation is complete.", className="report-loading-text")
+                    ])
+                ]),
+
+                # CNC CSV 輸出管理視窗
+                html.Div(id="cnc-output-modal", className="popup-overlay", style={"display": "none"}, children=[
+                    html.Div(className="popup-content", children=[
+                        html.H4("Doenload or Delete CNC CSV Files", className="popup-title"),
+                        html.Label("CNC CSV Files", className="label-inline"),
+                        html.Div(className="file-list-container", children=[
+                            dcc.Checklist(id="cnc-output-checklist", options=[], value=[],
+                                          labelStyle={"display": "block", "overflowWrap": "anywhere"})
+                        ]),
+                        html.Div([
+                            html.Button("Download", id="download-cnc-output-button", className="control-button", disabled=True),
+                            html.Button("Delete", id="delete-cnc-output-button", className="control-button", disabled=True),
+                            html.Button("Cancel", id="cancel-cnc-output-button", className="control-button cancel-button"),
+                        ], className="modal-button-container"),
+                        html.Div(id="cnc-output-message", className="part-files-message", role="status"),
+                        dcc.Download(id="download-cnc-output"),
                     ])
                 ]),
 

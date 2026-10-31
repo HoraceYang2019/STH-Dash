@@ -4,6 +4,7 @@ __pycache__/
 
 # 忽略指定資料夾內所有內容
 /output/
+/cnc_csv/
 /yaml/
 /stl/
 

@@ -2,6 +2,7 @@
 import pandas as pd
 import yaml
 import os
+from pathlib import Path
 import logging
 import numpy as np
 from datetime import datetime
@@ -211,6 +212,20 @@ class DataManager:
         except Exception as e:
             logger.error(f"無法讀取 STL 或是 PNG/JPG 檔案列表: {e}")
             return []
+
+    def get_cnc_output_files(self):
+        """列出 CNC 輸出資料夾第一層的 CSV，排除符號連結與子資料夾。"""
+        root = Path(self.config.CNC_CSV_DIR).expanduser().resolve(strict=True)
+        files = []
+        with os.scandir(root) as entries:
+            for entry in entries:
+                if (entry.is_symlink() or not entry.is_file(follow_symlinks=False)
+                        or Path(entry.name).suffix.lower() != ".csv"):
+                    continue
+                path = Path(entry.path).resolve()
+                if path.parent == root:
+                    files.append({"label": entry.name, "value": str(path)})
+        return sorted(files, key=lambda item: item["label"].casefold())
 
     def get_yaml_files(self):
         """

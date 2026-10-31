@@ -130,18 +130,26 @@ body {
 
 /* 左側面板容器，包含上半部和下半部 */
 .left-panel-container {
-    width: 10%; /* 固定寬度為視窗的 10% */
-    min-width: 100px; /* 縮減最小寬度 */
+    width: 10%; /* 固定為主體容器寬度的 10% */
+    min-width: 0; /* 避免內容撐寬容器 */
     display: flex; /* 垂直排列子面板 */
     flex-direction: column; /* 子元素垂直排列 */
     gap: 0.5vw; /* 縮減上下面板之間的間距 */
-    flex: 1; /* 自動填滿可用空間 */
+    flex: 0 0 10%; /* 不隨內容或剩餘空間伸縮 */
+}
+
+.left-panel,
+.lower-left-panel {
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-wrap: anywhere; /* 長檔名與加工參數在面板內換行 */
 }
 
 /* ==================== 左側控制面板 ==================== */
 /* 左側上半部面板，包含檔案上傳和下拉選單 */
 .left-panel {
-    height: 60%; /* 占左側容器高度的 60% */
+    height: auto;
+    flex: 1; /* 扣除下方面板後，填滿剩餘高度 */
     background-color: #e7ebed; /* 淺灰背景，與主體區分 */
     padding: 0.5rem; /* 縮減內距 */
     border-radius: 0.3rem; /* 縮減圓角 */
@@ -204,7 +212,8 @@ body {
     background-color: #e7ebed; /* 淺灰背景 */
     padding: 0.2rem; /* 縮減內距 */
     border-radius: 0.3rem; /* 縮減圓角 */
-    flex: 1; /* 填滿剩餘空間 */
+    height: auto;
+    flex: 0 0 auto; /* 高度依按鈕內容決定，不再撐滿剩餘空間 */
 }
 
 /* 特定 panel-group 的按鈕 */
@@ -212,14 +221,14 @@ body {
 .panel-group.control-buttons {
     flex-direction: column; /* 垂直排列按鈕 */
     gap: 0.4rem; /* 縮減按鈕之間的間距 */
-    padding: 0.5rem; /* 調整內距 */
+    padding: 0.35rem 0.5rem; /* 縮減群組上下內距 */
     align-items: stretch; /* 確保按鈕填滿容器寬度 */
-    margin-bottom: 0.4rem; /* 按鈕之間的間距 */
+    margin-bottom: 0.4rem; /* 縮減群組之間的間距 */
 }
 .panel-group.config-buttons {
     flex-direction: column; /* 垂直排列按鈕 */
     gap: 0.4rem; /* 縮減按鈕之間的間距 */
-    padding: 0.5rem; /* 調整內距 */
+    padding: 0.35rem 0.5rem; /* 縮減群組上下內距 */
     align-items: stretch; /* 確保按鈕填滿容器寬度 */
 }
 
@@ -492,6 +501,13 @@ div.Select__menu, div.Select-menu-outer, div[class*="menu"] {
     background-color: #f9f9f9; /* 淺灰背景，與其他區域區分 */
 }
 
+/* CNC 檔案清單：增加可視高度，並配合較小的視窗 */
+#cnc-output-modal .file-list-container {
+    height: min(200px, 45vh);
+    max-height: 45vh;
+    box-sizing: border-box;
+}
+
 /* 勾選框清單樣式 */
 .file-list-container .dash-checklist {
     list-style: none; /* 移除預設清單樣式 */
@@ -606,14 +622,14 @@ div.Select__menu, div.Select-menu-outer, div[class*="menu"] {
 
     .panel-group.connection-buttons,
     .panel-group.control-buttons {
-        gap: 0.3rem; /* 縮減按鈕間距 */
-        padding: 0.4rem; /* 縮減內距 */
-        margin-bottom: 0.6rem; /* 響應式縮減外距 */
+        gap: 0.15rem; /* 縮減按鈕間距 */
+        padding: 0.2rem 0.4rem; /* 縮減群組上下內距 */
+        margin-bottom: 0.15rem; /* 縮減群組外距 */
     }
 
     .panel-group.config-buttons {
-        gap: 0.3rem; /* 縮減按鈕間距 */
-        padding: 0.4rem; /* 縮減內距 */
+        gap: 0.15rem; /* 縮減按鈕間距 */
+        padding: 0.2rem 0.4rem; /* 縮減群組上下內距 */
     }
 
     #machining-params p {
@@ -694,7 +710,6 @@ div.Select__menu, div.Select-menu-outer, div[class*="menu"] {
 
     .left-panel, .lower-left-panel {
         padding: 0.3rem; /* 進一步縮減內距 */
-        min-width: 80px; /* 進一步縮減最小寬度 */
     }
 
     .left-panel button, .lower-left-panel button {
@@ -704,14 +719,14 @@ div.Select__menu, div.Select-menu-outer, div[class*="menu"] {
 
     .panel-group.connection-buttons,
     .panel-group.control-buttons {
-        gap: 0.2rem; /* 進一步縮減按鈕間距 */
-        padding: 0.3rem; /* 進一步縮減內距 */
-        margin-bottom: 0.4rem; /* 進一步縮減外距 */
+        gap: 0.1rem; /* 進一步縮減按鈕間距 */
+        padding: 0.15rem 0.3rem; /* 縮減群組上下內距 */
+        margin-bottom: 0.1rem; /* 縮減群組外距 */
     }
 
     .panel-group.config-buttons {
-        gap: 0.2rem; /* 進一步縮減按鈕間距 */
-        padding: 0.3rem; /* 進一步縮減內距 */
+        gap: 0.1rem; /* 進一步縮減按鈕間距 */
+        padding: 0.15rem 0.3rem; /* 縮減群組上下內距 */
     }
 
     #machining-params p {

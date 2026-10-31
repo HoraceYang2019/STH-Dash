@@ -36,6 +36,7 @@ class ConfigManager:
             self.YAML_DIR = config["YAML_DIR"]
             self.STL_DIR = config["STL_DIR"]
             self.CSV_DIR = config["CSV_DIR"]
+            self.CNC_CSV_DIR = config.get("CNC_CSV_DIR", "./cnc_csv")
             self.COEFF_PATH = config["COEFF_PATH"]
             self.CSS_PATH = config["CSS_PATH"]
             self.PORT = config["PORT"]
